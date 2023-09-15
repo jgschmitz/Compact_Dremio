@@ -1,4 +1,4 @@
-# Compacting MongoDB Collections Safely
+# Compacting MongoDB Collections Safely 🐬
 
 Compacting collections in MongoDB is a maintenance operation that can help reduce storage and improve query performance. However, it's essential to perform this operation carefully to minimize the impact on production database availability and performance. Here are the recommended steps to compact the collections you mentioned without causing significant disruption:
 

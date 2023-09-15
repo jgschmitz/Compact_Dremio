@@ -24,3 +24,47 @@ Monitor After Compaction: After the compaction is complete, continue to monitor 
 Regular Maintenance: Consider implementing a regular maintenance schedule for collections to prevent excessive fragmentation and keep your database running efficiently.
 
 Remember that the exact steps and impact of compaction can vary depending on your MongoDB version, storage engine, and the size of your collections. It's crucial to test the process thoroughly in a non-production environment before applying it to your live database. Additionally, always have a rollback plan in case any issues arise during the compaction process.
+
+## Monitoring MongoDB After Compaction
+
+Monitoring MongoDB after compaction involves observing key performance metrics and behaviors to ensure that the operation has not negatively impacted your database and to verify that the intended improvements have been achieved. Here are some steps and commands you can use to monitor your MongoDB instance after compaction:
+
+1. **Check MongoDB Logs**: Review MongoDB server logs for any errors or warnings related to the compaction process or general database operation. The log file location can be specified in your MongoDB configuration file (typically `mongod.conf`).
+
+   ```shell
+   tail -f /var/log/mongodb/mongod.log
+Use MongoDB Profiling: Enable MongoDB's profiling feature to capture and analyze query performance. Profiling can help you identify slow queries and potential bottlenecks.
+
+To enable profiling at the slow operation level (queries that exceed a certain threshold), set the slowms option in your MongoDB configuration file:
+
+yaml
+Copy code
+operationProfiling:
+  slowOpThresholdMs: 100
+You can then query the system.profile collection to examine slow queries:
+
+shell
+Copy code
+db.system.profile.find({}).sort({ ts: -1 }).limit(10)
+Monitor Resource Utilization: Use system monitoring tools like top, htop, or dedicated monitoring solutions to keep an eye on CPU usage, memory consumption, and disk I/O.
+
+Check Collection Metrics: MongoDB provides various collection-specific metrics through the db.collection.stats() command. You can use this command to check the size of the collection, the number of documents, and other relevant statistics.
+
+shell
+Copy code
+db['dcs-prodemea.metadata-dataset-splits'].stats()
+db['dcs-prodemea.metadata-multi-splits'].stats()
+Test Query Performance: Execute representative queries on your MongoDB database to verify that the query performance has improved as expected. Compare query execution times before and after compaction.
+
+Review Indexes: Check your collection's indexes to ensure that they are still effective for your queries. You can use the db.collection.getIndexes() command to list the indexes for a collection.
+
+shell
+Copy code
+db['dcs-prodemea.metadata-dataset-splits'].getIndexes()
+db['dcs-prodemea.metadata-multi-splits'].getIndexes()
+Monitor Replica Set or Cluster Health: If you are using a MongoDB replica set or cluster, monitor the health and synchronization status of the nodes to ensure data consistency.
+
+shell
+Copy code
+rs.status()
+Review Query Patterns: Analyze query patterns and workload to determine if any optimizations are necessary. Consider using MongoDB's query planner to understand query execution plans and index utilization.

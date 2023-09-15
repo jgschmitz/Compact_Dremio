@@ -37,34 +37,29 @@ Use MongoDB Profiling: Enable MongoDB's profiling feature to capture and analyze
 
 To enable profiling at the slow operation level (queries that exceed a certain threshold), set the slowms option in your MongoDB configuration file:
 
-yaml
-Copy code
+```shell
 operationProfiling:
   slowOpThresholdMs: 100
 You can then query the system.profile collection to examine slow queries:
 
-shell
-Copy code
+```shell
 db.system.profile.find({}).sort({ ts: -1 }).limit(10)
 Monitor Resource Utilization: Use system monitoring tools like top, htop, or dedicated monitoring solutions to keep an eye on CPU usage, memory consumption, and disk I/O.
 
 Check Collection Metrics: MongoDB provides various collection-specific metrics through the db.collection.stats() command. You can use this command to check the size of the collection, the number of documents, and other relevant statistics.
 
-shell
-Copy code
+```shell
 db['dcs-prodemea.metadata-dataset-splits'].stats()
 db['dcs-prodemea.metadata-multi-splits'].stats()
 Test Query Performance: Execute representative queries on your MongoDB database to verify that the query performance has improved as expected. Compare query execution times before and after compaction.
 
 Review Indexes: Check your collection's indexes to ensure that they are still effective for your queries. You can use the db.collection.getIndexes() command to list the indexes for a collection.
 
-shell
-Copy code
+```shell
 db['dcs-prodemea.metadata-dataset-splits'].getIndexes()
 db['dcs-prodemea.metadata-multi-splits'].getIndexes()
 Monitor Replica Set or Cluster Health: If you are using a MongoDB replica set or cluster, monitor the health and synchronization status of the nodes to ensure data consistency.
 
-shell
-Copy code
+```shell
 rs.status()
 Review Query Patterns: Analyze query patterns and workload to determine if any optimizations are necessary. Consider using MongoDB's query planner to understand query execution plans and index utilization.
